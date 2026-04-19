@@ -1,0 +1,58 @@
+#+TITLE: gptel-futur
+
+[[https://elpa.gnu.org/packages/futur.html][futur]] integration for [[https://github.com/karthink/gptel][gptel]].
+
+* Usage
+:PROPERTIES:
+:ID:       393031a0-27a8-4aef-a9e2-9bb70ebc43d4
+:END:
+
+First, install with your favorite package manager (from VC, this package isn't on (M)ELPA).
+
+#+begin_src elisp
+(use-package :vc "https://github.com/Stebalien/gptel-futur")
+#+end_src
+
+Then you can define tools with futurs as follows:
+
+#+begin_src elisp
+(gptel-futur-make-tool
+ :name "curl"
+ :description "Fetch a URL with cURL."
+ :confirm t
+ :category "web"
+ :args '((:name "url" :type string :description "The URL to fetch"))
+ :function
+ (lambda (url)
+   (futur-with-temp-buffer
+     (futur-let* ((buf (current-buffer))
+                  (res <- (futur-process-call "curl" nil buf nil "-fsSL" "--" url)))
+       (with-current-buffer buf
+         (if ((= res 0)) (buffer-string) (format "Failed to fetch %s" url)))))))
+#+end_src
+
+You can make async requests as follows:
+
+#+begin_src elisp
+(defun notmuch-mark-if-spam ()
+  "Determine if the current message is spam and asynchronously mark it as such."
+  (futur-let* ((id (notmuch-show-get-message-id))
+               (spam-p <- (gptel-futur-request (buffer-string-no-properties)
+                            :system "You are an expert spam detector. Decide whether the provided message message is spam (true) or not (false)."
+                            :schema '(:type bool))))
+    :error-fun
+    ((t (err) (display-warning
+               'org-mode (format ": %s" err)
+               :error)))
+    (when spam-p
+      (notmuch-tag id "+spam" 'omit-history))))
+#+end_src
+
+This is especially useful if you need to make a sequence of requests.
+
+* License
+:PROPERTIES:
+:ID:       74bfb392-1a73-47bf-a1de-1f8df4f78601
+:END:
+
+GPLv3 © Steven Allen 2026
