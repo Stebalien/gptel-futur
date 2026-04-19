@@ -4,7 +4,7 @@
 
 ;; Author: Steven Allen <steven@stebalien.com>
 ;; Homepage: https://github.com/Stebalien/gptel-futur
-;; Package-Requires: ((emacs "28.1") (gptel "0.9.9.4"))
+;; Package-Requires: ((emacs "28.1") (futur "1.4") (gptel "0.9.9.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
