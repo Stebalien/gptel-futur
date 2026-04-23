@@ -70,7 +70,7 @@ If a SCHEMA is provided, it will be deserialized and provided as an
 object.
 
 On failure, the error will be delivered as a failure and can be handled
-via futur's :error-fun
+via futur's :on-error.
 
 All ARGS are passed to `gptel-request', which see. CALLBACKs will
 still be called as usual before delivering results to the futur.
