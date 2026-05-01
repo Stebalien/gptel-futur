@@ -28,11 +28,11 @@
 (require 'futur)
 (require 'gptel-request)
 
-(cl-defmethod future-blocker-abort ((fsm gptel-fsm) _ _)
+(cl-defmethod futur-blocker-abort ((fsm gptel-fsm) _ _)
   "Futur blocker implementation for gptel's FSM."
   (gptel-abort fsm))
 
-(cl-defmethod future-blocker-wait ((fsm gptel-fsm))
+(cl-defmethod futur-blocker-wait ((fsm gptel-fsm))
   "Futur blocker implementation for gptel's FSM."
   (let* ((state (gptel-fsm-state fsm)))
     (pcase state
